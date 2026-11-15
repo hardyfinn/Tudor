@@ -1,0 +1,145 @@
+{
+  "slug": "Tudor",
+  "name": "Tudor",
+  "version": "2.0.0",
+  "license": "GPL-3.0-or-later",
+  "brand": "Tudor",
+  "author": "Haer",
+  "authorEmail": "",
+  "authorUrl": "",
+  "pluginUrl": "https://github.com/hardyfinn/Tudor",
+  "manualUrl": "https://github.com/hardyfinn/Tudor/blob/main/docs/MANUAL.md",
+  "sourceUrl": "https://github.com/hardyfinn/Tudor",
+  "donateUrl": "",
+  "changelogUrl": "",
+  "modules": [
+    {
+      "slug": "Object",
+      "name": "Object (OBJ)",
+      "description": "Rainforest: a resonant object (barrel, drum, cable, plate...) driven by transducers, heard in the air and through a contact pickup.",
+      "tags": [
+        "Physical modeling",
+        "Filter",
+        "Effect"
+      ]
+    },
+    {
+      "slug": "Critter",
+      "name": "Critter (CRT)",
+      "description": "Rainforest: four bird, insect and frog call generators that can learn an object's resonances.",
+      "tags": [
+        "Oscillator",
+        "Random",
+        "Quad"
+      ]
+    },
+    {
+      "slug": "Seek",
+      "name": "Seek (SEK)",
+      "description": "Rainforest: probes an object, finds its strongest resonances and teases them with a wandering tone.",
+      "tags": [
+        "Oscillator",
+        "Tuner",
+        "Visual",
+        "Polyphonic"
+      ]
+    },
+    {
+      "slug": "Wander",
+      "name": "Wander (WND)",
+      "description": "Rainforest: places 8 objects and their loudspeakers in a room and walks a listener through it, stereo or quad.",
+      "tags": [
+        "Panning",
+        "Mixer",
+        "Reverb",
+        "Quad",
+        "Visual"
+      ]
+    },
+    {
+      "slug": "Pulser",
+      "name": "Pulser (PLS)",
+      "description": "Pulsers: rhythm from phase-shifted feedback. A resonant loop builds, fires, is quenched and builds again.",
+      "tags": [
+        "Clock generator",
+        "Drum",
+        "Random",
+        "Oscillator"
+      ]
+    },
+    {
+      "slug": "Shift",
+      "name": "Shift (SHF)",
+      "description": "Pulsers: variable phase-shift amplifier, fixed 0/90/180/270 degree shift plus an all-pass chain, for feedback loops.",
+      "tags": [
+        "Phaser",
+        "Effect",
+        "Distortion"
+      ]
+    },
+    {
+      "slug": "Tuned",
+      "name": "Tuned (TND)",
+      "description": "Pulsers: tuned and saturating band-pass amplifier that rings and limits itself in feedback.",
+      "tags": [
+        "Filter",
+        "Distortion",
+        "Effect"
+      ]
+    },
+    {
+      "slug": "Sideband",
+      "name": "Sideband (SBM)",
+      "description": "Pulsers: modulator with variable sideband, from lower sideband through ring modulation to upper sideband.",
+      "tags": [
+        "Ring modulator",
+        "Effect"
+      ]
+    },
+    {
+      "slug": "Loop",
+      "name": "Loop (LOP)",
+      "description": "Pulsers: the giant oscillator. A 4x4 feedback matrix with sends, returns and keepers that hold each bus at the edge.",
+      "tags": [
+        "Mixer",
+        "Effect",
+        "Oscillator",
+        "Visual"
+      ]
+    },
+    {
+      "slug": "Swell",
+      "name": "Swell (SWL)",
+      "description": "Phonemes: percussion generator whose attacks stretch from a click to 8 seconds, fired by onsets or triggers.",
+      "tags": [
+        "Drum",
+        "Envelope follower",
+        "Envelope generator",
+        "Granular"
+      ]
+    },
+    {
+      "slug": "Phoneme",
+      "name": "Phoneme (PHN)",
+      "description": "Phonemes: 16-band vocoder whose band levels are chopped into speech-like fragments.",
+      "tags": [
+        "Vocoder",
+        "Speech",
+        "Effect",
+        "Visual"
+      ]
+    },
+    {
+      "slug": "XGate",
+      "name": "XGate (XGT)",
+      "description": "Phonemes: four channels cross-gated by each other's levels, moved around 4 or 6 outputs by a switcher.",
+      "tags": [
+        "Mixer",
+        "Switch",
+        "Dynamics",
+        "Panning",
+        "Quad"
+      ]
+    }
+  ]
+}
