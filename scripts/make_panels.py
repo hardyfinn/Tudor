@@ -483,7 +483,7 @@ for x, k, lab in zip(C4x, ["TIME", "GAIN", "PHASE", "INSTAB"], ["TIME CV", "GAIN
     p.knob(f"{k}_CV_PARAM", lab, x, 77, size="T", bipolar=True)
     p.jack(f"{k}_CV_INPUT", lab, x, 85.5, "cv")
 C5 = [7.0, 18.7, 30.48, 42.2, 54.0]
-p.jack("COUPLE_INPUT", "COUPLE\nIN", C5[0], 98.5, "audio")
+p.jack("COUPLE_INPUT", "COUPLE IN", C5[0] + 0.9, 98.5, "audio")
 p.jack("KICK_INPUT", "KICK", C5[1], 98.5, "audio")
 p.jack("FIRE_INPUT", "FIRE", C5[2], 98.5, "gate")
 p.jack("COUPLE_OUTPUT", "COUPLE\nOUT", C5[3], 98.5, "audio")

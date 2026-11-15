@@ -181,7 +181,7 @@ inline void placePulser(W* w, M* m) {
 	w->addInput(createInputCentered<PortCv>(mm2px(Vec(36.700f, 85.500f)), m, M::PHASE_CV_INPUT));
 	w->addParam(createParamCentered<TudorTrim>(mm2px(Vec(51.000f, 77.000f)), m, M::INSTAB_CV_PARAM));
 	w->addInput(createInputCentered<PortCv>(mm2px(Vec(51.000f, 85.500f)), m, M::INSTAB_CV_INPUT));
-	w->addInput(createInputCentered<PortAudio>(mm2px(Vec(7.000f, 98.500f)), m, M::COUPLE_INPUT));
+	w->addInput(createInputCentered<PortAudio>(mm2px(Vec(7.900f, 98.500f)), m, M::COUPLE_INPUT));
 	w->addInput(createInputCentered<PortAudio>(mm2px(Vec(18.700f, 98.500f)), m, M::KICK_INPUT));
 	w->addInput(createInputCentered<PortGate>(mm2px(Vec(30.480f, 98.500f)), m, M::FIRE_INPUT));
 	w->addOutput(createOutputCentered<PortAudio>(mm2px(Vec(42.200f, 98.500f)), m, M::COUPLE_OUTPUT));
