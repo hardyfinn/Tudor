@@ -31,6 +31,7 @@ struct Critter {
 		float callT = 1e9f, callLen = 0.2f;
 		float callOffset = 0.f;  // semitone jitter per call
 		int syllables = 1;
+		int calls = 0;
 		float amPhase = 0.f;
 		float followPitch = 0.f; bool followInit = false;
 		float vibPhase = 0.f;
@@ -77,6 +78,7 @@ struct Critter {
 				if (p.callAll || s.rng.uniform() < v.density) {
 					s.callLen = clampf(0.35f / rate, 0.02f, 1.5f) * (wInsect > 0.6f ? 3.f : 1.f) * (wFrog > 0.5f ? 1.6f : 1.f);
 					s.callT = 0.f;
+					s.calls++;
 					s.callOffset = 1.5f * s.rng.bipolar();
 					s.syllables = 1 + s.rng.below(std::min(6, 1 + (int)(rate * 0.6f) + 2));
 				}

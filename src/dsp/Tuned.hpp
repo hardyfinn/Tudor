@@ -27,15 +27,17 @@ struct Tuned {
 
 	static float sat(float s, int mode) {
 		switch (mode) {
-			case TUBE: return 4.f * (std::tanh(s / 4.f + 0.15f) - std::tanh(0.15f));
+			case TUBE: return 4.f * (std::tanh(s / 4.f + 0.15f) - std::tanh(0.15f)) / 0.97775f;   // unity slope at 0
 			case HARD: return clampf(s, -4.f, 4.f);
 			default: return softClamp(s, LIM);
 		}
 	}
 	float step(float x, int mode) {
 		svf.process(x);
-		// saturate the band-pass integrator state (nonlinear SVF): bounded ringing at any Q
-		svf.ic1 = sat(svf.ic1, mode);
+		// saturate the band-pass integrator state (nonlinear SVF), scaled so the normalised
+		// output saturates at the same level at any Q: bounded ringing that stays audible
+		float sc = 0.5f * svf.k;
+		svf.ic1 = sat(svf.ic1 * sc, mode) / sc;
 		svf.ic2 = softClamp(svf.ic2, 2.f * LIM);
 		return svf.bpNorm();
 	}
