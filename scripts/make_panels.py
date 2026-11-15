@@ -30,7 +30,7 @@ PLATE = "#2a2a2a"
 PLATE_INK = "#f2f2f2"
 STYLE = "silver"   # silver | paper | graphite | block  (TUDOR_STYLE env var)
 SECTION_BACK = "#cbcdce"
-_style = os.environ.get("TUDOR_STYLE", "silver")
+_style = os.environ.get("TUDOR_STYLE", "graphite")   # Hardy chose graphite, 2026-11-15
 if _style == "paper":
     STYLE, GROUND, INK, PLATE, SECTION_BACK = "paper", "#f3f1ec", "#1b1b1b", "#262626", "#f3f1ec"
 elif _style == "graphite":
@@ -285,7 +285,7 @@ class Panel:
                 top = y - JACK_R - 0.9
                 bot = y + JACK_R + 1.6 + nl * (LABEL_CAP + 0.7)
                 wl = max(2 * JACK_R + 1.6, max(text_width(l, LABEL_CAP) for l in label.split("\n")) + 1.4)
-                g.append(f'<rect x="{x - wl / 2:.2f}" y="{top:.2f}" width="{wl:.2f}" height="{bot - top:.2f}" rx="0.9" fill="{PLATE}"/>')
+                g.append(f'<rect x="{x - wl / 2:.2f}" y="{top:.2f}" width="{wl:.2f}" height="{bot - top:.2f}" rx="0.9" fill="{PLATE}"' + (' stroke="#4a4e52" stroke-width="0.3"' if STYLE == "graphite" else '') + '/>')
         # knob scales, rings
         for it in self.items:
             kind, pid, label, x, y, ex = it
@@ -315,7 +315,7 @@ class Panel:
             ink.append(text_path("IN", xs[0] - 6.4, ys[0] + 0.6, 1.3, "middle"))
             ink.append(text_path("OUT", xs[0] - 6.4, ys[-1] + 3.2, 1.3, "middle"))
         for (did, x0, y0, x1, y1) in self.displays:
-            g.append(f'<rect x="{x0:.2f}" y="{y0:.2f}" width="{x1 - x0:.2f}" height="{y1 - y0:.2f}" rx="0.8" fill="#101412" stroke="#7d8082" stroke-width="0.4"/>')
+            g.append(f'<rect x="{x0:.2f}" y="{y0:.2f}" width="{x1 - x0:.2f}" height="{y1 - y0:.2f}" rx="0.8" fill="#101412" stroke="{"#4a4e52" if STYLE == "graphite" else "#7d8082"}" stroke-width="0.4"/>')
         for (t, x, base_, cap_, anchor), it in self.all_labels():
             is_out = it[0] == "jack" and it[5]["out"]
             (white if is_out else ink).append(text_path(t, x, base_, cap_, anchor))
@@ -688,11 +688,16 @@ def components():
 </svg>"""
     def knob(name, r, line_w):
         d = 2 * r
+        if STYLE == "graphite":
+            # light caps so knobs read on the dark panel
+            body, cap, edge, hi, line = "#9a9ea1", "#d3d5d6", "#b4b7b9", "#ffffff", "#141414"
+        else:
+            body, cap, edge, hi, line = "#141414", "#1e1e1e", "#2e2e2e", "#ffffff", "#f2f2f2"
         c[name] = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{d}mm" height="{d}mm" viewBox="0 0 {d} {d}">
-<circle cx="{r}" cy="{r}" r="{r}" fill="#141414"/>
-<circle cx="{r}" cy="{r}" r="{r * 0.82:.3f}" fill="#1e1e1e" stroke="#2e2e2e" stroke-width="0.25"/>
-<circle cx="{r * 0.85:.3f}" cy="{r * 0.8:.3f}" r="{r * 0.5:.3f}" fill="#ffffff" fill-opacity="0.05"/>
-<line x1="{r}" y1="{r * 0.15:.3f}" x2="{r}" y2="{r * 0.75:.3f}" stroke="#f2f2f2" stroke-width="{line_w}" stroke-linecap="round"/>
+<circle cx="{r}" cy="{r}" r="{r}" fill="{body}"/>
+<circle cx="{r}" cy="{r}" r="{r * 0.82:.3f}" fill="{cap}" stroke="{edge}" stroke-width="0.25"/>
+<circle cx="{r * 0.85:.3f}" cy="{r * 0.8:.3f}" r="{r * 0.5:.3f}" fill="{hi}" fill-opacity="0.08"/>
+<line x1="{r}" y1="{r * 0.15:.3f}" x2="{r}" y2="{r * 0.75:.3f}" stroke="{line}" stroke-width="{line_w}" stroke-linecap="round"/>
 </svg>"""
     knob("TudorKnob", 5.5, 0.7)
     knob("TudorKnobSmall", 4.0, 0.6)

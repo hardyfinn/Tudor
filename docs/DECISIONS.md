@@ -9,6 +9,7 @@ Where the build departs from `docs/BUILD-INSTRUCTIONS.md`, or fills in something
 - **Param, port and light enums are generated** by `scripts/make_panels.py` together with the panels and positions, so the C++ cannot drift from the panels.
 
 ## Panels
+- **Graphite look** (Hardy's choice, 2026-11-15, replacing the brushed silver he found dirty): flat dark grey `#26292c`, light ink, group colour as a band under the title, light grey knob caps with a dark pointer, outputs on near-black plates with a thin outline. `TUDOR_STYLE=silver|paper|block` in `scripts/make_panels.py` still draws the other mock-ups.
 - **Widths** differ from the spec so every label fits without overlap: OBJECT 18 HP, CRITTER 20, SEEK 12, WANDER 26, PULSER 12, SHIFT 8, TUNED 6, SIDEBAND 6, LOOP 26, SWELL 10, PHONEME 14, XGATE 24.
 - **WANDER and LOOP group their jacks in labelled sections** (AIR, PICKUP on WANDER; BUS 1 to 4 on LOOP) so 16 inputs read clearly.
 - **SHIFT's SATURATE knob is labelled DRIVE** on the panel: SATURATE did not fit at 8 HP. The tooltip says what it does.
