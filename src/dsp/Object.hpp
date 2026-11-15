@@ -232,7 +232,7 @@ struct ObjectModel {
 			topHold = 0.05f;
 			int idx[MAXM];
 			for (int k = 0; k < nm; k++) idx[k] = k;
-			int n = std::min(nm, TOP);
+			int n = std::min(nm, (int)TOP);
 			std::partial_sort(idx, idx + n, idx + nm, [&](int a, int b) { return energy[a] > energy[b]; });
 			for (int j = 0; j < TOP; j++) topIdx[j] = j < n ? idx[j] : (n > 0 ? idx[0] : 0);
 		}

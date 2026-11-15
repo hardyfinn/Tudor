@@ -5,8 +5,7 @@
 RACK_DIR ?= ../..
 
 # No -Isrc: our src/dsp headers must not shadow Rack's <dsp/...> on case-insensitive filesystems.
-# C++17: static constexpr members are inline (Rack defaults to C++11, which leaves them undefined).
-CXXFLAGS += -std=c++17 -Wall -Wextra -Wno-unused-parameter $(EXTRA_CXXFLAGS)
+CXXFLAGS += -Wall -Wextra -Wno-unused-parameter $(EXTRA_CXXFLAGS)
 
 SOURCES += $(wildcard src/*.cpp src/modules/*.cpp)
 
@@ -16,6 +15,8 @@ DISTRIBUTABLES += README.md
 
 ifneq ($(wildcard $(RACK_DIR)/plugin.mk),)
 include $(RACK_DIR)/plugin.mk
+# Rack's compile.mk adds -std=c++11. We need C++17 (static constexpr members are inline there).
+CXXFLAGS := $(filter-out -std=c++11,$(CXXFLAGS)) -std=c++17
 endif
 
 TEST_CXX ?= g++
