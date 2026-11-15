@@ -28,6 +28,15 @@ GROUND = "#c9cbcc"
 INK = "#1a1a1a"
 PLATE = "#2a2a2a"
 PLATE_INK = "#f2f2f2"
+STYLE = "silver"   # silver | paper | graphite | block  (TUDOR_STYLE env var)
+SECTION_BACK = "#cbcdce"
+_style = os.environ.get("TUDOR_STYLE", "silver")
+if _style == "paper":
+    STYLE, GROUND, INK, PLATE, SECTION_BACK = "paper", "#f3f1ec", "#1b1b1b", "#262626", "#f3f1ec"
+elif _style == "graphite":
+    STYLE, GROUND, INK, PLATE, SECTION_BACK = "graphite", "#26292c", "#ecebe6", "#0f1011", "#26292c"
+elif _style == "block":
+    STYLE, GROUND, INK, PLATE, SECTION_BACK = "block", "#ebebe8", "#1b1b1b", "#262626", "#ebebe8"
 GROUP_COLOURS = {"RAINFOREST": "#3f6b45", "PULSERS": "#a2522a", "PHONEMES": "#3e5a7e"}
 H = 128.5
 HP = 5.08
@@ -225,15 +234,20 @@ class Panel:
     def svg(self):
         w = self.w
         out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{w:.2f}mm" height="{H}mm" viewBox="0 0 {w:.2f} {H}">']
-        out.append('<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4d6d7"/><stop offset="1" stop-color="#bfc1c2"/></linearGradient></defs>')
-        out.append(f'<rect x="0" y="0" width="{w:.2f}" height="{H}" fill="url(#g)"/>')
-        rnd = random.Random(self.slug)
-        brush = []
-        for _ in range(int(40 + w)):
-            yy = rnd.uniform(0, H)
-            brush.append(f'<line x1="0" y1="{yy:.2f}" x2="{w:.2f}" y2="{yy:.2f}"/>')
-        out.append(f'<g stroke="#ffffff" stroke-opacity="0.10" stroke-width="0.12">{"".join(brush)}</g>')
-        out.append(f'<rect x="0.6" y="0.6" width="{w - 1.2:.2f}" height="{H - 1.2}" fill="none" stroke="#8d9092" stroke-width="0.4"/>')
+        if STYLE == "silver":
+            out.append('<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4d6d7"/><stop offset="1" stop-color="#bfc1c2"/></linearGradient></defs>')
+            out.append(f'<rect x="0" y="0" width="{w:.2f}" height="{H}" fill="url(#g)"/>')
+            rnd = random.Random(self.slug)
+            brush = []
+            for _ in range(int(40 + w)):
+                yy = rnd.uniform(0, H)
+                brush.append(f'<line x1="0" y1="{yy:.2f}" x2="{w:.2f}" y2="{yy:.2f}"/>')
+            out.append(f'<g stroke="#ffffff" stroke-opacity="0.10" stroke-width="0.12">{"".join(brush)}</g>')
+            out.append(f'<rect x="0.6" y="0.6" width="{w - 1.2:.2f}" height="{H - 1.2}" fill="none" stroke="#8d9092" stroke-width="0.4"/>')
+        else:
+            out.append(f'<rect x="0" y="0" width="{w:.2f}" height="{H}" fill="{GROUND}"/>')
+            if STYLE == "block":
+                out.append(f'<rect x="0" y="0" width="{w:.2f}" height="14.3" fill="{GROUP_COLOURS[self.group]}"/>')
         ink = []    # dark text paths
         white = []  # white text paths
         g = []
@@ -241,10 +255,13 @@ class Panel:
         cap = TITLE_CAP
         while text_width(self.title, cap) > w - 4:
             cap -= 0.1
-        ink.append(text_path(self.title, w / 2, 7.0 + cap, cap))
+        (white if STYLE == "block" else ink).append(text_path(self.title, w / 2, 7.0 + cap, cap))
         # group stripe
         col = GROUP_COLOURS[self.group]
-        g.append(f'<rect x="0.6" y="11.3" width="{w - 1.2:.2f}" height="3.0" fill="{col}"/>')
+        if STYLE == "silver":
+            g.append(f'<rect x="0.6" y="11.3" width="{w - 1.2:.2f}" height="3.0" fill="{col}"/>')
+        elif STYLE in ("paper", "graphite"):
+            g.append(f'<rect x="0" y="11.3" width="{w:.2f}" height="3.0" fill="{col}"/>')
         gcap = 1.6
         txt = self.group if text_width(self.group, gcap) < w - 4 - text_width(self.short, gcap) else self.group[:4]
         white.append(text_path(txt, 2.2, 13.55, gcap, "start"))
@@ -256,7 +273,7 @@ class Panel:
             g.append(f'<rect x="{x0:.2f}" y="{y0:.2f}" width="{x1 - x0:.2f}" height="{y1 - y0:.2f}" rx="1.0" fill="none" stroke="{INK}" stroke-opacity="0.55" stroke-width="0.3"/>')
             if title:
                 tw = text_width(title, SMALL_CAP) + 1.6
-                g.append(f'<rect x="{(x0 + x1) / 2 - tw / 2:.2f}" y="{y0 - 1.2:.2f}" width="{tw:.2f}" height="2.4" fill="#cbcdce"/>')
+                g.append(f'<rect x="{(x0 + x1) / 2 - tw / 2:.2f}" y="{y0 - 1.2:.2f}" width="{tw:.2f}" height="2.4" fill="{SECTION_BACK}"/>')
                 ink.append(text_path(title, (x0 + x1) / 2, y0 + SMALL_CAP / 2, SMALL_CAP))
         for (x0, y0, x1, y1) in self.lines:
             g.append(f'<line x1="{x0:.2f}" y1="{y0:.2f}" x2="{x1:.2f}" y2="{y1:.2f}" stroke="{INK}" stroke-opacity="0.6" stroke-width="0.3"/>')
@@ -712,6 +729,14 @@ def main():
     if errs:
         print("\n".join(errs))
         raise SystemExit(f"{len(errs)} layout problems")
+    out_root = os.environ.get("TUDOR_OUT", ROOT)
+    if out_root != ROOT:
+        os.makedirs(os.path.join(out_root, "res"), exist_ok=True)
+        for p in P:
+            with open(os.path.join(out_root, "res", f"{p.slug}.svg"), "w") as f:
+                f.write(p.svg())
+        print(f"wrote {len(P)} {STYLE} panels to {out_root}")
+        return
     os.makedirs(os.path.join(ROOT, "res", "components"), exist_ok=True)
     os.makedirs(os.path.join(ROOT, "src", "generated"), exist_ok=True)
     for p in P:

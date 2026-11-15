@@ -2,6 +2,8 @@
 Then scripts/manual/topng.js renders PNGs. Needs only Python 3."""
 import os, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+RES = os.environ.get("TUDOR_RES", os.path.join(ROOT, "res"))
+IMG = os.environ.get("TUDOR_IMG", os.path.join(ROOT, "docs/img"))
 lay = open(os.path.join(ROOT, "src/generated/Layout.hpp")).read()
 COMP = {"TudorKnob": "TudorKnob", "TudorKnobSmall": "TudorKnobSmall", "TudorTrim": "TudorTrim",
         "TudorToggle2": "Toggle2_0", "TudorToggle3": "Toggle3_0", "PortAudio": "PortAudio",
@@ -15,7 +17,7 @@ def inner(svg):
 
 for blk in re.finditer(r"inline void place(\w+)\(W\* w, M\* m\) \{(.*?)\n\}", lay, re.S):
     slug, body = blk.group(1), blk.group(2)
-    panel = open(os.path.join(ROOT, "res", slug + ".svg")).read()
+    panel = open(os.path.join(RES, slug + ".svg")).read()
     W, H = re.search(r'width="([\d.]+)mm" height="([\d.]+)mm"', panel).groups()
     vb, pbody = inner(panel)
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}mm" height="{H}mm" viewBox="{vb}">', pbody]
@@ -43,5 +45,5 @@ for blk in re.finditer(r"inline void place(\w+)\(W\* w, M\* m\) \{(.*?)\n\}", la
         x, y, w, h = [float(v.strip().rstrip("f")) for v in m.group(1).split(",")]
         parts.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="0.8" fill="#101412"/>')
     parts.append("</svg>")
-    open(os.path.join(ROOT, "docs/img", slug + ".svg"), "w").write("\n".join(parts))
+    open(os.path.join(IMG, slug + ".svg"), "w").write("\n".join(parts))
 print("ok")
