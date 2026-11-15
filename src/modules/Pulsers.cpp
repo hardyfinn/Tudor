@@ -125,7 +125,6 @@ struct ShiftModule : Module, ShiftIds {
 		outputs[INV_OUTPUT].setVoltage(-y);
 	}
 };
-constexpr int ShiftModule::STAGES[5];
 
 struct ShiftWidget : ModuleWidget {
 	ShiftWidget(ShiftModule* m) {

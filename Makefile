@@ -5,7 +5,8 @@
 RACK_DIR ?= ../..
 
 # No -Isrc: our src/dsp headers must not shadow Rack's <dsp/...> on case-insensitive filesystems.
-CXXFLAGS += -Wall -Wextra -Wno-unused-parameter $(EXTRA_CXXFLAGS)
+# C++17: static constexpr members are inline (Rack defaults to C++11, which leaves them undefined).
+CXXFLAGS += -std=c++17 -Wall -Wextra -Wno-unused-parameter $(EXTRA_CXXFLAGS)
 
 SOURCES += $(wildcard src/*.cpp src/modules/*.cpp)
 
