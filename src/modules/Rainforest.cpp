@@ -214,7 +214,7 @@ struct CritterModule : Module, CritterIds {
 		}
 		configParam(SPECIES_PARAM, 0.f, 1.f, 0.2f, "SPECIES (0 bird, 0.5 insect, 1 frog)", "%", 0.f, 100.f);
 		configParam(FOLLOW_PARAM, 0.f, 1.f, 0.f, "FOLLOW", "%", 0.f, 100.f);
-		configParam(LEVEL_PARAM, 0.f, 1.f, 0.8f, "LEVEL", "%", 0.f, 100.f);
+		configParam(LEVEL_PARAM, 0.f, 1.f, 0.8f, "LEVEL", "%", 0.f, 100.f)->randomizeEnabled = false;
 		configInput(SPECIES_INPUT, "SPECIES (0.1/V)");
 		configInput(FOLLOW_INPUT, "FOLLOW (poly pitches, e.g. OBJECT MODES or SEEK NODES)");
 		configInput(CALL_INPUT, "CALL (trigger: every voice calls)");
