@@ -54,7 +54,10 @@ jobs:
           path: dist/*.vcvplugin
 
   release:
-    if: startsWith(github.ref, 'refs/tags/v')
+    # Tags (v*) make a versioned release; every push to main and every manual
+    # run also refreshes the "latest" release, so a downloadable .vcvplugin
+    # always exists without pushing a tag.
+    if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main'
     needs: [test, build-mac]
     runs-on: ubuntu-latest
     permissions:
@@ -63,6 +66,14 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
-      - uses: softprops/action-gh-release@v2
+      - if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
         with:
+          files: artifacts/**/*.vcvplugin
+      - if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest build (main)
+          target_commitish: ${{ github.sha }}
           files: artifacts/**/*.vcvplugin
