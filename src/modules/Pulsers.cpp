@@ -146,7 +146,7 @@ struct TunedModule : Module, TunedIds {
 		configExp(this, Q_PARAM, 0.5f, 200.f, 8.f, "Q", "");
 		configParam(GAIN_PARAM, -12.f, 40.f, 0.f, "GAIN (input)", " dB");
 		configSwitch(SATURATE_PARAM, 0.f, 2.f, 1.f, "SATURATE", {"Clean", "Tube", "Hard"});
-		configParam(LEVEL_PARAM, 0.f, 1.f, 0.8f, "LEVEL", "%", 0.f, 100.f);
+		configParam(LEVEL_PARAM, 0.f, 1.f, 0.8f, "LEVEL", "%", 0.f, 100.f)->randomizeEnabled = false;
 		configTrim(this, TUNE_CV_PARAM, "TUNE CV (1 V/oct at full)", 1.f);
 		configInput(TUNE_CV_INPUT, "TUNE CV");
 		configInput(IN_INPUT, "IN");
@@ -191,7 +191,7 @@ struct SidebandModule : Module, SidebandIds {
 		configParam(CARRIER_LEAK_PARAM, 0.f, 1.f, 0.f, "CARRIER LEAK", "%", 0.f, 100.f);
 		configParam(SIGNAL_LEAK_PARAM, 0.f, 1.f, 0.f, "SIGNAL LEAK", "%", 0.f, 100.f);
 		configParam(DRIVE_PARAM, 0.f, 1.f, 0.f, "DRIVE", "%", 0.f, 100.f);
-		configParam(LEVEL_PARAM, 0.f, 2.f, 1.f, "LEVEL", "%", 0.f, 100.f);
+		configParam(LEVEL_PARAM, 0.f, 2.f, 1.f, "LEVEL", "%", 0.f, 100.f)->randomizeEnabled = false;
 		configTrim(this, SIDEBAND_CV_PARAM, "SIDEBAND CV (0.2/V at full)");
 		configInput(SIDEBAND_CV_INPUT, "SIDEBAND CV");
 		configInput(SIGNAL_INPUT, "SIGNAL");
@@ -244,7 +244,7 @@ struct LoopModule : Module, LoopIds {
 				configParam(mParam(i, j), -1.5f, 1.5f, ring ? 0.7f : 0.f, string::f("%d→%d (bus %d return into bus %d)", i + 1, j + 1, i + 1, j + 1));
 			}
 		for (int j = 0; j < N; j++) {
-			configParam(levelParam(j), 0.f, 1.f, 0.8f, string::f("LEVEL %d", j + 1), "%", 0.f, 100.f);
+			configParam(levelParam(j), 0.f, 1.f, 0.8f, string::f("LEVEL %d", j + 1), "%", 0.f, 100.f)->randomizeEnabled = false;
 			configSwitch(keepParam(j), 0.f, 1.f, 0.f, string::f("KEEP %d (keeper)", j + 1), {"On", "Off"});
 			configInput(IN1_INPUT + 2 * j, string::f("IN %d", j + 1));
 			configInput(RETURN1_INPUT + 2 * j, string::f("RETURN %d (unpatched = SEND %d)", j + 1, j + 1));

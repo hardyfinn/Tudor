@@ -22,7 +22,7 @@ struct SwellModule : Module, SwellIds {
 		configParam(SENSITIVITY_PARAM, 0.f, 1.f, 0.5f, "SENSITIVITY (onset detector)", "%", 0.f, 100.f);
 		configParam(VELOCITY_PARAM, 0.f, 1.f, 0.7f, "VELOCITY", "%", 0.f, 100.f);
 		configParam(SCATTER_PARAM, 0.f, 1.f, 0.2f, "SCATTER", "%", 0.f, 100.f);
-		configParam(LEVEL_PARAM, 0.f, 1.f, 0.8f, "LEVEL", "%", 0.f, 100.f);
+		configParam(LEVEL_PARAM, 0.f, 1.f, 0.8f, "LEVEL", "%", 0.f, 100.f)->randomizeEnabled = false;
 		configTrim(this, ATTACK_CV_PARAM, "ATTACK CV (1 oct of time per V at full)");
 		configTrim(this, TONE_CV_PARAM, "TONE CV (1 V/oct at full)");
 		configInput(ATTACK_CV_INPUT, "ATTACK CV");
@@ -203,7 +203,7 @@ struct XGateModule : Module, XGateIds {
 		for (int c = 0; c < C; c++) {
 			configSwitch(MODE1_PARAM + 3 * c, 0.f, 2.f, 0.f, string::f("MODE %d", c + 1), {"Open (sounds while key is loud)", "Duck (sounds while key is quiet)", "Off (no gating)"});
 			configSwitch(KEY1_PARAM + 3 * c, 0.f, 3.f, (float)((c + 1) % C), string::f("KEY %d (channel whose level gates this one)", c + 1), {"1", "2", "3", "4"});
-			configParam(LEVEL1_PARAM + 3 * c, 0.f, 1.f, 0.8f, string::f("LEVEL %d", c + 1), "%", 0.f, 100.f);
+			configParam(LEVEL1_PARAM + 3 * c, 0.f, 1.f, 0.8f, string::f("LEVEL %d", c + 1), "%", 0.f, 100.f)->randomizeEnabled = false;
 			configInput(IN1_INPUT + c, string::f("IN %d", c + 1));
 			configLight(GATE1_LIGHT + c, string::f("Gate %d", c + 1));
 		}
